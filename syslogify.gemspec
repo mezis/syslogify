@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Syslogify::VERSION
   spec.authors       = ["Julien Letessier"]
   spec.email         = ["julien.letessier@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{Sends stdout and stderr to syslog.}
+  spec.description   = %q{Sends stdout and stderr to syslog..}
+  spec.homepage      = "https://github.com/mezis/syslogify"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")

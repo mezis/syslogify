@@ -1,5 +1,3 @@
-require "syslogify/version"
+require 'syslogify/forker'
 
-module Syslogify
-  # Your code goes here...
-end
+Syslogify::Forker.instance.start
