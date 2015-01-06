@@ -31,7 +31,7 @@ module Syslogify
         wr.close
 
         while line = STDIN.gets
-          Syslog.log(Syslog::LOG_NOTICE, line)
+          Syslog.log(Syslog::LOG_NOTICE, line.gsub('%', '%%'))
         end
         Syslog.log(Syslog::LOG_NOTICE, 'Shutting down')
       end
