@@ -30,6 +30,7 @@ module Syslogify
         STDIN.reopen(rd)
         wr.close
         Process.daemon # otherwise we'll intercept signals
+        $PROGRAM_NAME = "#{Syslog.ident}.syslogify"
 
         while line = STDIN.gets
           Syslog.log(Syslog::LOG_NOTICE, line.gsub('%', '%%'))
