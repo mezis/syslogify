@@ -66,10 +66,16 @@ module Syslogify
       self
     end
 
+    # useful when e.g. the process name changes, and/or after forking
+    def restart
+      stop
+      start
+    end
+
     private
 
     def _identity
-      @identity ||= ENV.fetch('SYSLOG_IDENTITY', File.basename($PROGRAM_NAME))
+      ENV.fetch('SYSLOG_IDENTITY', File.basename($PROGRAM_NAME))
     end
   end
 end
