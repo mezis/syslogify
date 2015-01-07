@@ -38,6 +38,7 @@ module Syslogify
       end
 
       Syslog.close
+      Process.detach(pid) # the subprocess will shut down on its own once starved of input
 
       rd.close
       STDOUT.reopen(wr)
@@ -52,10 +53,10 @@ module Syslogify
       return unless @pid
       STDOUT.reopen(@old_stdout)
       STDERR.reopen(@old_stderr)
+      # NOTE: we shouldn't kill the subprocess (which can be shared igqf the parent
+      # forked after #start), and it'll shut down on its own anyways.
       @old_stdout = @old_stderr = nil
 
-      Process.kill('TERM', @pid)
-      Process.wait(@pid)
       @pid = nil
       self
     end
