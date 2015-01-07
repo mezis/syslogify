@@ -29,6 +29,7 @@ module Syslogify
       @pid = fork do
         STDIN.reopen(rd)
         wr.close
+        Process.daemon # otherwise we'll intercept signals
 
         while line = STDIN.gets
           Syslog.log(Syslog::LOG_NOTICE, line.gsub('%', '%%'))
