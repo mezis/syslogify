@@ -44,17 +44,22 @@ module Syslogify
       STDOUT.reopen(wr)
       STDERR.reopen(wr)
       STDOUT.sync = STDERR.sync = true
-      
-      @old_stderr.puts('Check syslog for further messages')
+     
+      begin
+        @old_stderr.puts('Check syslog for further messages')
+      rescue Errno::EPIPE
+        # this can happen if something else tampered with our @old streams, 
+        # e.g. the daemons library
+      end
       self
     end
 
     def stop
       return unless @pid
-      STDOUT.reopen(@old_stdout)
-      STDERR.reopen(@old_stderr)
       # NOTE: we shouldn't kill the subprocess (which can be shared igqf the parent
       # forked after #start), and it'll shut down on its own anyways.
+      STDOUT.reopen(@old_stdout) unless @old_stdout.closed?
+      STDERR.reopen(@old_stderr) unless @old_stderr.closed?
       @old_stdout = @old_stderr = nil
 
       @pid = nil
