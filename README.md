@@ -20,8 +20,17 @@ Or install it yourself as:
 
 ## Usage
 
-As soon as the gem is loaded, output will be diverted. If you wish to delay
-diversion, change your Gemfile to:
+As soon as the gem is loaded, output will be diverted if:
+
+- `STDOUT` is an interactive terminal; or
+- the environment is `development` or `test`; and
+- the environment varible `FORCE_SYSLOG` is unset.
+
+The current environment is determined by looking at, by order of decreasing
+precedence, the `AR_ENV` environment variable, `Rails.env` if available, and the
+`RACK_ENV` environment variable. It defaults to `development`.
+
+If you wish to delay diversion, change your Gemfile to:
 
 ```ruby
 gem 'syslogify', require: false
@@ -36,7 +45,6 @@ Syslogify::Forker.instance.start
 # do stuff
 Syslogify::Forker.instance.stop
 ```
-
 
 ## Contributing
 
