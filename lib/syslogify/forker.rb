@@ -37,7 +37,7 @@ module Syslogify
         @sink.close
 
         while line = STDIN.gets
-          Syslog.log(Syslog::LOG_NOTICE, line.gsub('%', '%%'))
+          Syslog.log(Syslog::LOG_NOTICE, line.force_encoding('binary').gsub('%', '%%'))
         end
         Syslog.log(Syslog::LOG_NOTICE, 'Shutting down')
       end
